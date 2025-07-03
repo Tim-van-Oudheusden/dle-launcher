@@ -19,12 +19,12 @@ build-options:
   env:
     NPM_CONFIG_LOGLEVEL: info
 modules:
-  - name: electron-sample-app
+  - name: dle-launcher
     buildsystem: simple
     build-options:
       env:
-        XDG_CACHE_HOME: /run/build/electron-sample-app/flatpak-node/cache
-        npm_config_cache: /run/build/electron-sample-app/flatpak-node/npm-cache
+        XDG_CACHE_HOME: /run/build/dle-launcher/flatpak-node/cache
+        npm_config_cache: /run/build/dle-launcher/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
       # Install npm dependencies
@@ -35,7 +35,7 @@ modules:
         . ../flatpak-node/electron-builder-arch-args.sh
         npm run dist -- $ELECTRON_BUILDER_ARCH_ARGS  --linux --dir
       # Bundle app and dependencies
-      - cp -a dist/linux*unpacked /app/main
+      - cp -a dist/linux*unpacked /app/src/main
       # Install app wrapper
       - install -Dm755 -t /app/bin/ ../run.sh
     subdir: main
@@ -51,4 +51,4 @@ modules:
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper.sh /app/main/electron-sample-app "$@"
+          - zypak-wrapper.sh /app/main/dle-launcher "$@"
